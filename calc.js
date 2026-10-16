@@ -1,4 +1,3 @@
-/*jslint browser */
 "use strict";
 
 function calculate() {
@@ -7,7 +6,7 @@ function calculate() {
     const errorBox = document.getElementById("error");
     const result = document.getElementById("result");
     const quantityText = quantityField.value.trim();
-    const pattern = /^[0-9]+$/;
+    const pattern = /^[1-9]\d*$/;
 
     function fail(message) {
         errorBox.textContent = message;
@@ -18,15 +17,20 @@ function calculate() {
     errorBox.textContent = "";
     quantityField.classList.remove("invalid");
 
+    if (quantityText === "") {
+        fail("Введите количество товара.");
+        return;
+    }
+
     if (!pattern.test(quantityText)) {
-        fail("Ошибка: допустимы только цифры (целое число, без пробелов и других символов).");
+        fail("Введите количество товара целым положительным числом (только цифры, без пробелов и знаков).");
         return;
     }
 
     const quantity = parseInt(quantityText, 10);
 
-    if (quantity < 1) {
-        fail("Ошибка: количество должно быть больше нуля.");
+    if (quantity > 1000000) {
+        fail("Максимальное количество — 1 000 000 шт.");
         return;
     }
 
